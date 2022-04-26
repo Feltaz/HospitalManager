@@ -14,10 +14,20 @@ public class ServiceService {
     }
 
     public List<Service> getService(){
-        return serviceRepository.findAll();
+
+        return
+                serviceRepository.findAll();
     }
 
     public void addService(Service service) {
-        System.out.println(service);
+        boolean exists= serviceRepository.existsById(service.getId());
+        if(exists) throw new IllegalStateException("Service already exists");
+        serviceRepository.save(service);
+    }
+
+    public void deleteService(long id) {
+        boolean exists = serviceRepository.existsById(id);
+        if(!exists) throw new IllegalStateException("Service does not exist");
+        serviceRepository.deleteById(id);
     }
 }

@@ -28,5 +28,9 @@ private final ServiceService serviceService;
     public void addService(@RequestBody  Service service){
         serviceService.addService(service);
     }
+    @DeleteMapping(path="/{id}")
+    public void deleteService(@PathVariable("id") long id){
+        serviceService.deleteService(id);
+    }
 
 }

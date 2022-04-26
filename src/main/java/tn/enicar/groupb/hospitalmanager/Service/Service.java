@@ -1,5 +1,6 @@
 package tn.enicar.groupb.hospitalmanager.Service;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import tn.enicar.groupb.hospitalmanager.Patient.Patient;
 import tn.enicar.groupb.hospitalmanager.Salle.Salle;
 
@@ -15,8 +16,11 @@ public class Service {
     private long id;
     private String nom;
     private long nbLits;
+
+@JsonIgnore
     @OneToMany(mappedBy = "service")
     private List<Salle> salleDeSoin;
+@JsonIgnore
     @OneToMany(mappedBy = "service")
     private List<Salle> salleOperation;
     //getters and setters, toString and hashCode

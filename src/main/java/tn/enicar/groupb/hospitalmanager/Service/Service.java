@@ -21,6 +21,22 @@ public class Service {
     private List<Salle> salleOperation;
     //getters and setters, toString and hashCode
 
+
+    public Service(long id, String nom, long nbLits, List<Salle> salleDeSoin, List<Salle> salleOperation) {
+        this.id = id;
+        this.nom = nom;
+        this.nbLits = nbLits;
+        this.salleDeSoin = salleDeSoin;
+        this.salleOperation = salleOperation;
+    }
+
+    public Service(long id, String nom, long nbLits, List<Salle> salleDeSoin) {
+        this.id = id;
+        this.nom = nom;
+        this.nbLits = nbLits;
+        this.salleDeSoin = salleDeSoin;
+    }
+
     public long getId() {
         return id;
     }

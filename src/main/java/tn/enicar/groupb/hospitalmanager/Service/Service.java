@@ -1,14 +1,23 @@
 package tn.enicar.groupb.hospitalmanager.Service;
 
+import tn.enicar.groupb.hospitalmanager.Patient.Patient;
 import tn.enicar.groupb.hospitalmanager.Salle.Salle;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity(name="service")
+@Table(name="service")
 public class Service {
+    @Id
+    @SequenceGenerator(name = "service_seq", sequenceName = "service_seq", allocationSize = 1)
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "service_seq")
     private long id;
     private String nom;
     private long nbLits;
+    @OneToMany(mappedBy = "service")
     private List<Salle> salleDeSoin;
+    @OneToMany(mappedBy = "service")
     private List<Salle> salleOperation;
     //getters and setters, toString and hashCode
 
@@ -63,7 +72,6 @@ public class Service {
                 '}';
     }
 
-    //hashcode  .
     @Override
     public int hashCode() {
         return (int) (id ^ (id >>> 32));

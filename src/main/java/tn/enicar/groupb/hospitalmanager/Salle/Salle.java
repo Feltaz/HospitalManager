@@ -43,4 +43,12 @@ public class Salle {
     public void setPatients(List<Patient> patients) {
         this.patients = patients;
     }
+    //toString
+    @Override
+    public String toString() {
+        return "Salle{" +
+                "id=" + id +
+                ", patients=" + patients +
+                '}';
+    }
 }

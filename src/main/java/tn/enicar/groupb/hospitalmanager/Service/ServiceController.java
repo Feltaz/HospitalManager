@@ -1,16 +1,14 @@
 package tn.enicar.groupb.hospitalmanager.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tn.enicar.groupb.hospitalmanager.Patient.Patient;
 import tn.enicar.groupb.hospitalmanager.Salle.Salle;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/api/v1")
+@RequestMapping(path="/api/service")
 public class ServiceController {
 private final ServiceService serviceService;
 
@@ -24,6 +22,11 @@ private final ServiceService serviceService;
     @GetMapping
     public List<Service> getService(){
         return serviceService.getService();
+    }
+
+    @PostMapping
+    public void addService(@RequestBody  Service service){
+        serviceService.addService(service);
     }
 
 }

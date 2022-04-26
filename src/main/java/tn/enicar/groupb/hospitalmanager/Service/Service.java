@@ -20,6 +20,7 @@ public class Service {
     @OneToMany(mappedBy = "service")
     private List<Salle> salleOperation;
     //getters and setters, toString and hashCode
+ public Service(){}
 
 
     public Service(long id, String nom, long nbLits, List<Salle> salleDeSoin, List<Salle> salleOperation) {
@@ -35,6 +36,19 @@ public class Service {
         this.nom = nom;
         this.nbLits = nbLits;
         this.salleDeSoin = salleDeSoin;
+    }
+
+    public Service( String nom, long nbLits) {
+
+        this.nom = nom;
+        this.nbLits = nbLits;
+    }
+
+    public Service(String nom, long nbLits, List<Salle> salleDeSoin, List<Salle> salleOperation) {
+        this.nom = nom;
+        this.nbLits = nbLits;
+        this.salleDeSoin = salleDeSoin;
+        this.salleOperation = salleOperation;
     }
 
     public long getId() {
@@ -83,8 +97,6 @@ public class Service {
                 "id=" + id +
                 ", nom='" + nom + '\'' +
                 ", nbLits=" + nbLits +
-                ", salleDeSoin=" + salleDeSoin +
-                ", salleOperation=" + salleOperation +
                 '}';
     }
 

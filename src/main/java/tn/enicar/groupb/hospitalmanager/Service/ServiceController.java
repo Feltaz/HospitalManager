@@ -21,16 +21,27 @@ private final ServiceService serviceService;
 
     @GetMapping
     public List<Service> getService(){
-        return serviceService.getService();
+
+    return serviceService.getServices();
     }
 
     @PostMapping
     public void addService(@RequestBody  Service service){
-        serviceService.addService(service);
+
+    serviceService.addService(service);
     }
     @DeleteMapping(path="/{id}")
     public void deleteService(@PathVariable("id") long id){
         serviceService.deleteService(id);
     }
+    @PutMapping(path="/{id}")
+    public void updateService(@RequestBody Service service, @PathVariable("id") long id){
+        serviceService.updateService(service,id);
+    }
+    @GetMapping(path="/{id}")
+    public Service getService(@PathVariable("id") long id){
+        return serviceService.getService(id);
+    }
+
 
 }

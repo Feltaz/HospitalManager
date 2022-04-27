@@ -13,7 +13,7 @@ public class ServiceService {
         this.serviceRepository = serviceRepository;
     }
 
-    public List<Service> getService(){
+    public List<Service> getServices(){
 
         return
                 serviceRepository.findAll();
@@ -29,5 +29,19 @@ public class ServiceService {
         boolean exists = serviceRepository.existsById(id);
         if(!exists) throw new IllegalStateException("Service does not exist");
         serviceRepository.deleteById(id);
+    }
+
+    public void updateService(Service service, long id) {
+        boolean exists = serviceRepository.existsById(id);
+        if(!exists) throw new IllegalStateException("Service does not exist");
+        service.setNom(service.getNom());
+        service.setNbLits(service.getNbLits());
+        serviceRepository.save(service);
+    }
+
+    public Service getService(long id) {
+        boolean exists = serviceRepository.existsById(id);
+        if(!exists) throw new IllegalStateException("Service does not exist");
+        return serviceRepository.findById(id).get();
     }
 }

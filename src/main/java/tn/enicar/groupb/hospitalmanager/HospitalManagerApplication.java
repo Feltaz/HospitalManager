@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @SpringBootApplication
+
 public class HospitalManagerApplication {
     @GetMapping(path="/")
     public String hello (){
@@ -16,5 +17,7 @@ public class HospitalManagerApplication {
     public static void main(String[] args) {
         SpringApplication.run(HospitalManagerApplication.class, args);
     }
+
+
 
 }

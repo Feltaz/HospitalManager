@@ -1,6 +1,7 @@
 package tn.enicar.groupb.hospitalmanager.registration.token;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

@@ -30,4 +30,9 @@ public class RdvController {
         rdvService.deleteRdv(id);
     }
 
+ @PutMapping(path="/{id}")
+    public Rdv updateRdv(@PathVariable("id") Long id, @RequestBody Rdv rdv){
+        return rdvService.updateRdv(id, rdv);
+    }
+
 }

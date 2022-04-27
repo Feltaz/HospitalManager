@@ -33,7 +33,7 @@ public class RegistrationService {
                         request.getLastName(),
                         request.getEmail(),
                         request.getPassword(),
-                        AppUserRole.EMPLOYEE
+                        request.getRole()
             )
         );
     }

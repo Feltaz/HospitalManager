@@ -7,11 +7,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import tn.enicar.groupb.hospitalmanager.registration.token.ConfirmationToken;
+import tn.enicar.groupb.hospitalmanager.registration.token.ConfirmationTokenService;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class AppUserService implements UserDetailsService { //find users once they try to login
     private final AppUserRepository appUserRepository; //appUser repository
+    private final ConfirmationTokenService confirmationTokenService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder; //this is the password encoder
     private final static String USER_NOT_FOUND_MSG=  //error message when the exception is thrown
             "user with email %s not found";
@@ -34,7 +40,14 @@ public class AppUserService implements UserDetailsService { //find users once th
       String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword()); //encode the password so it won't be stored in plain text
        appUser.setPassword(encodedPassword);//set the password
         appUserRepository.save(appUser);
-       //TODO: Send confirmation token
-        return "It works";
+        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken=new ConfirmationToken(token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                appUser
+
+        );
+       confirmationTokenService.saveConfirmationToken(confirmationToken);
+        return token;
     }
 }

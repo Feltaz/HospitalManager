@@ -9,9 +9,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class RegistrationRequest {
-    private final String firtstname;
-    private final String lastname;
+public class RegistrationRequest {//this is the registration request format the user needs to provide a JSON with these fields in order for them to register
+    private final String firstName;
+    private final String lastName;
     private final String email;
     private final String password;
 }

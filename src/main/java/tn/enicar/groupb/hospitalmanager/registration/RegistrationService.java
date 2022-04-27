@@ -1,6 +1,7 @@
 package tn.enicar.groupb.hospitalmanager.registration;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import tn.enicar.groupb.hospitalmanager.AppUser.AppUser;
 import tn.enicar.groupb.hospitalmanager.AppUser.AppUserRole;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
+@Log4j2
 public class RegistrationService {
  private final EmailValidator emailValidator;//validate email
  private final AppUserService appUserService; //this service is needed to call upon the appuser services
@@ -21,8 +23,10 @@ public class RegistrationService {
         boolean isValidEmail=emailValidator.
                 test(request.getEmail());
         if (!isValidEmail) {
+            log.warn("invalid email");
             throw new IllegalStateException("email not valid");
         }
+        log.info(String.format("Registered with email %s", request.getEmail()));
         return appUserService.signUpUser(//signup the user
                 new AppUser(
                         request.getFirstName(),
@@ -41,17 +45,21 @@ public class RegistrationService {
                 orElseThrow(()->
                         new IllegalStateException("token not found"));
     if(confirmationToken.getConfirmedAt()!= null){
+        log.warn("token already confirmed");
         throw new IllegalStateException("email already taken");
     }
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
+            log.warn("confirmation with an expired token");
             throw new IllegalStateException("token expired");
         }
 
         confirmationTokenService.setConfirmedAt(token);
+        log.info(String.format("token confirmed for user %s", confirmationToken.getAppUser().getEmail()));
         appUserService.enableAppUser(
                 confirmationToken.getAppUser().getEmail());
+        log.info(String.format("User %s enabled",confirmationToken.getAppUser().getEmail()));
         return "confirmed";
     }
 }

@@ -1,6 +1,7 @@
 package tn.enicar.groupb.hospitalmanager.AppUser;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
+@Log4j2
 public class AppUserService implements UserDetailsService { //find users once they try to login
     private final AppUserRepository appUserRepository; //appUser repository
     private final ConfirmationTokenService confirmationTokenService;
@@ -25,6 +27,7 @@ public class AppUserService implements UserDetailsService { //find users once th
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException { //look for a specific user using an email if not found throw an error
+        log.info("attempting to find user with email: "+email);
         return appUserRepository.findByEmail(email).orElseThrow(() ->
                 new UsernameNotFoundException(
                 String.format(USER_NOT_FOUND_MSG,
@@ -33,19 +36,21 @@ public class AppUserService implements UserDetailsService { //find users once th
         );
     }
     public String signUpUser(AppUser appUser){//signUp a new User
+        log.info("attempting to sign up user with email: "+appUser.getEmail());
        boolean userExists = appUserRepository.findByEmail(appUser.getEmail()).isPresent(); //check if the email is already taken
        if (userExists){
+           log.warn("user with email: "+appUser.getEmail()+" already exists");
            throw new IllegalStateException("email Already taken"); //error thrown when email is taken
        }
       String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword()); //encode the password so it won't be stored in plain text
        appUser.setPassword(encodedPassword);//set the password
         appUserRepository.save(appUser);
+        log.info("user with email: "+appUser.getEmail()+" signed up successfully");
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken=new ConfirmationToken(token,
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(15),
                 appUser
-
         );
        confirmationTokenService.saveConfirmationToken(confirmationToken);
         return token;

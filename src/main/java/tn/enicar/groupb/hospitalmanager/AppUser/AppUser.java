@@ -31,7 +31,7 @@ public class AppUser implements UserDetails {
     @Enumerated(EnumType.STRING)
     private AppUserRole AppUserRole;
     private Boolean locked=false;//this will be used to check if the account is locked
-    private Boolean enabled=true;//this will be used to check if the account is enabled
+    private Boolean enabled=false;//this will be used to check if the account is enabled
 
     public AppUser(String firstName,
                    String lastName,
@@ -76,7 +76,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return locked;
+        return !locked;
     }
 
     @Override

@@ -34,6 +34,8 @@ public class ServiceService {
     public void updateService(Service service, long id) {
         boolean exists = serviceRepository.existsById(id);
         if(!exists) throw new IllegalStateException("Service does not exist");
+        serviceRepository.deleteById(id);
+        service.setId(id);
         service.setNom(service.getNom());
         service.setNbLits(service.getNbLits());
         serviceRepository.save(service);
